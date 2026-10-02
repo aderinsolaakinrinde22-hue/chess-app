@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#f3f3f3">
+	<title>Good Move | Chess Studio</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="chessgame.css">
+</head>
+<body>
+	<header class="topbar">
+		<a class="brand" href="#home" aria-label="Good Move home">
+			<span class="brand-mark" aria-hidden="true">♘</span>
+			<span>good move<span class="brand-period">.</span></span>
+		</a>
+		<div class="topbar-note"><span class="status-dot" id="engine-status-dot"></span> <span id="engine-status">YOUR LITTLE CHESS STUDIO</span></div>
+		<button class="icon-button" id="home-button" type="button" aria-label="Go to home" title="Home">⌂</button>
+	</header>
+
+	<main>
+		<section class="screen home-screen is-active" id="home-screen" aria-labelledby="home-title">
+			<div class="home-copy">
+				<p class="eyebrow"><span class="eyebrow-line"></span> A FRESH GAME, A CLEARER MIND</p>
+				<h1 id="home-title">Make your<br>next move <em>count.</em></h1>
+				<p class="home-description">A quiet place to play a game, sharpen your instincts, or get a fresh idea when you feel stuck.</p>
+
+				<div class="mode-options">
+					<button class="mode-option is-selected" data-mode="play" type="button" aria-pressed="true">
+						<span class="mode-icon" aria-hidden="true">♟</span>
+						<span class="mode-text"><strong>Play a game</strong><small>Take on the studio</small></span>
+						<span class="mode-arrow" aria-hidden="true">↗</span>
+					</button>
+				</div>
+
+				<div class="difficulty-row" id="difficulty-row">
+					<span class="field-label">PICK YOUR PACE</span>
+					<div class="segmented" role="group" aria-label="Game difficulty">
+						<button type="button" data-difficulty="easy" aria-pressed="false">Easy</button>
+						<button type="button" data-difficulty="medium" class="is-selected" aria-pressed="true">Steady</button>
+						<button type="button" data-difficulty="hard" aria-pressed="false">Tricky</button>
+						<button type="button" data-difficulty="impossible" aria-pressed="false">Impossible</button>
+					</div>
+				</div>
+
+				<button class="start-button" id="start-button" type="button"><span>Start a game</span><span aria-hidden="true">→</span></button>
+				<p class="home-footnote"><span>4</span> hints <span class="footnote-divider">·</span> <span>2</span> rewinds <span class="footnote-divider">·</span> no clock</p>
+			</div>
+
+			<div class="home-art" aria-label="A chessboard ready for a new game">
+				<div class="art-caption"><span>POSITION NO. 001</span><span>WHITE TO MOVE</span></div>
+				<div class="preview-board" id="preview-board" aria-hidden="true"></div>
+				<div class="art-note"><span class="art-note-piece">♘</span><span>A good game starts with<br><strong>one curious move.</strong></span></div>
+				<div class="art-stamp" aria-hidden="true">GM<br><span>EST. TODAY</span></div>
+			</div>
+		</section>
+
+		<section class="screen game-screen" id="game-screen" aria-labelledby="game-title" hidden>
+			<div class="screen-heading">
+				<div><p class="eyebrow"><span class="eyebrow-line"></span> YOUR GAME</p><h1 id="game-title">Over the board<span class="heading-period">.</span></h1></div>
+				<button class="text-button" id="new-game-button" type="button"><span aria-hidden="true">↺</span> New game</button>
+			</div>
+			<div class="game-layout">
+				<div class="board-tools" role="group" aria-label="Game tools">
+					<div class="board-tool">
+						<button class="board-tool-button" id="hint-button" type="button" aria-label="Get a hint, 4 remaining" title="Get a hint"><span class="hint-bulb" aria-hidden="true">💡</span></button>
+						<span class="board-tool-count" id="hints-count">4 left</span>
+					</div>
+					<div class="board-tool">
+						<button class="board-tool-button" id="rewind-button" type="button" aria-label="Rewind one turn, 2 remaining" title="Rewind one turn"><span aria-hidden="true">↶</span></button>
+						<span class="board-tool-count" id="rewinds-count">2 left</span>
+					</div>
+					<div class="board-tool">
+						<button class="board-tool-button" id="strategy-button" type="button" aria-label="Auto-play and review mistakes, available after your 16th move" title="Unlocks after 16 of your moves" disabled><span id="strategy-icon" aria-hidden="true">▶</span></button>
+						<span class="board-tool-count strategy-count" id="strategy-count">16 to go</span>
+					</div>
+				</div>
+				<div class="board-column">
+					<div class="player-strip opponent-strip" id="opponent-strip"><span class="player-avatar avatar-dark">♚</span><span class="player-name">Studio</span><span class="player-detail" id="difficulty-label">Steady</span><span class="turn-indicator" id="opponent-turn" aria-label="Waiting"></span></div>
+					<div class="board-frame"><div class="chessboard" id="game-board" role="grid" aria-label="Chess board"></div></div>
+					<div class="player-strip user-strip" id="user-strip"><span class="player-avatar avatar-light">♙</span><span class="player-name">You</span><span class="player-detail" id="game-status" aria-live="polite">Your move</span><span class="turn-indicator is-active" id="user-turn" aria-label="Your turn"></span></div>
+				</div>
+				<aside class="game-sidebar">
+					<div class="move-panel"><div class="panel-title"><span>MOVE LOG</span><span id="move-total">0 MOVES</span></div><ol class="move-list" id="move-list" aria-label="Moves"></ol><p class="empty-log" id="empty-log">Your first move is waiting.</p></div>
+					<div class="game-tip"><span aria-hidden="true">✳</span><p id="game-tip-text" aria-live="polite">The center is a lovely place to start.</p></div>
+				</aside>
+			</div>
+		</section>
+
+	</main>
+
+	<div class="result-overlay" id="result-overlay" hidden>
+		<div class="result-confetti" id="result-confetti" aria-hidden="true"></div>
+		<section class="result-dialog" role="dialog" aria-modal="true" aria-labelledby="result-title">
+			<span class="result-piece" id="result-piece" aria-hidden="true">♕</span>
+			<p class="eyebrow" id="result-eyebrow">NICELY PLAYED</p>
+			<h2 id="result-title">A lovely game.</h2>
+			<p id="result-copy">Every move brought you here.</p>
+			<button class="start-button" id="play-again-button" type="button"><span>Play again</span><span aria-hidden="true">→</span></button>
+			<button class="result-home-button" id="result-home-button" type="button">Back to the studio</button>
+		</section>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js" defer></script>
+	<script src="chessgame.js" defer></script>
+</body>
+</html>
